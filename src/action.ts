@@ -18,6 +18,7 @@ const COVERAGE_HEADER = ":loop: **Code coverage**\n\n"
 export async function run() {
   const CWD = process.cwd() + sep
   const RESULTS_FILE = join(CWD, "jest.results.json")
+  core.debug(RESULTS_FILE)
 
   try {
     const token = process.env.GITHUB_TOKEN
@@ -161,7 +162,9 @@ function getJestCommand(resultsFile: string) {
 }
 
 function parseResults(resultsFile: string): FormattedTestResults {
-  const results = JSON.parse(readFileSync(resultsFile, "utf-8"))
+  const fileData = readFileSync(resultsFile, "utf-8")
+  core.debug(fileData)
+  const results = JSON.parse(fileData)
   console.debug("Jest results: %j", results)
   return results
 }
