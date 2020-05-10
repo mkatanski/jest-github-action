@@ -7,23 +7,15 @@ on:
       - "releases/*"
 
 jobs:
-  # unit tests
-  tests:
-    name: "Unit tests"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - run: npm ci
-      - run: npm test
-
   # Failing tests on purpose
   failing-tests:
     name: "Failing tests (on purpose)"
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v1
-      - run: npm ci
+      - uses: actions/checkout@v2
       - uses: ./
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          test-command: "yarn failing-test"
